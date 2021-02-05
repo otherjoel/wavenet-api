@@ -2,7 +2,12 @@
 
 A Racket interface for Google’s Cloud text-to-speech engine.
 
-Documentation to come. You need an API key.
+Documentation to come. You need:
+
+* An API key
+
+This package is not currently on the Racket package server. To install it, clone this repo and do
+`cd parent-folder; raco pkg install ./wavenet`.
 
 Here’s a quick sample:
 
