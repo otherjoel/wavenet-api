@@ -62,7 +62,7 @@
 ;; NOTE: If you use a string for the voice argument and (voices) has not yet been called, there
 ;; will be an extra network request
 (define/contract (synthesize text voice-or-name)
-  (-> string (or/c voice? string?) bytes?)
+  (-> string? (or/c voice? string?) bytes?)
   (unless (api-key) (error 'get/check "API key not set"))
   (let* ([synth-voice (if (voice? voice-or-name) voice-or-name (select-voice voice-or-name))]
          [api-voice (hash-remove synth-voice 'naturalSampleRateHertz)]
