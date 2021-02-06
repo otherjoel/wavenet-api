@@ -8,10 +8,11 @@
 (define api-key (make-parameter #f))
 (define (api-key/uri-param) (cons 'key (api-key)))
 
-(define endpoint "https://texttospeech.googleapis.com/v1/")
+(define endpoint (make-parameter "https://texttospeech.googleapis.com/v1/"))
 
 (provide api-key
          api-key/uri-param
+         endpoint
          voice-names
          select-voice
          synthesize
@@ -22,7 +23,7 @@
 ;; Appends `resource` onto `endpoint` and GETs response, checking for errors
 (define (get/check resource)
   (unless (api-key) (error 'get/check "API key not set"))
-  (define res (get (string-append endpoint resource)
+  (define res (get (string-append (endpoint) resource)
                    #:params (list (api-key/uri-param))))
   (define res-code (response-status-code res))
   (cond
@@ -67,7 +68,7 @@
          [req-json  (hash 'input (hash 'ssml text)
                           'voice api-voice
                           'audioConfig (hash 'audioEncoding "MP3"))]
-         [res (response-json (post (format "~atext:synthesize?key=~a" endpoint (api-key))
+         [res (response-json (post (format "~atext:synthesize?key=~a" (endpoint) (api-key))
                               #:json req-json))]
          [audio-str (hash-ref res 'audioContent)]
          [audio-b64 (string->bytes/utf-8 audio-str)])
