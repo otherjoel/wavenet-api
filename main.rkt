@@ -60,8 +60,8 @@
 ;; Returns the raw mp3 audio bytes from the Text-to-Speech API
 ;; NOTE: If you use a string for the voice argument and (voices) has not yet been called, there
 ;; will be an extra network request
-(define/contract (synthesize text voice-or-name)
-  (-> string? (or/c voice? string?) bytes?)
+(define/contract (synthesize text voice-or-name #:output-file [filename #f])
+  (->* (string? (or/c voice? string?)) (#:output-file (or/c path-string? #f)) (or/c bytes? integer?))
   (unless (api-key) (error 'get/check "wavenet: API key not set"))
   (let* ([synth-voice (if (voice? voice-or-name) voice-or-name (select-voice voice-or-name))]
          [api-voice (hash-remove synth-voice 'naturalSampleRateHertz)]
@@ -74,5 +74,8 @@
          [res (response-json (post (format "~atext:synthesize?key=~a" (endpoint) (api-key))
                               #:json req-json))]
          [audio-str (hash-ref res 'audioContent)]
-         [audio-b64 (string->bytes/utf-8 audio-str)])
-    (base64-decode audio-b64)))
+         [audio-b64 (string->bytes/utf-8 audio-str)]
+         [audio-bytes (base64-decode audio-b64)])
+    (cond
+      [filename (with-output-to-file filename (λ () (write-bytes audio-bytes)) #:exists 'replace)]
+      [else audio-bytes])))
