@@ -1,6 +1,8 @@
 # Wavenet API
 
-A Racket interface for Google’s Cloud text-to-speech engine.
+A Racket interface for the [Google Cloud text-to-speech API][tts].
+
+[tts]: https://cloud.google.com/text-to-speech
 
 Documentation to come. You need:
 
@@ -19,11 +21,6 @@ Here’s a quick sample:
 
 (api-key (file->string "api.rktd"))
 
-(define (save-bytes bstr filename)
-  (with-output-to-file filename
-    (lambda () (write-bytes bstr))
-    #:exists 'replace))
-
 (define british-dude
   #hasheq((languageCodes . ("en-GB"))
          (name . "en-GB-Wavenet-B")
@@ -31,6 +28,6 @@ Here’s a quick sample:
          (ssmlGender . "MALE")))
 
 (define (say text)
-  (save-bytes (synthesize text british-dude) "temp.mp3")
+  (synthesize text british-dude #:output-file "temp.mp3")
   (play-sound "temp.mp3" #t))
 ```
