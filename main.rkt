@@ -38,7 +38,6 @@
 ;; (Private) Returns the list of available voices, caching to avoid repeat requests
 (define (voices)
   (unless (not (equal? null (voices-cache)))
-    (unless (api-key) (error 'get/check "wavenet: API key not set"))
     (voices-cache
      (for/hash ([v (in-list (hash-ref (get/check "voices") 'voices))])
        (values (format "~a (~a)" (voice-name v) (voice-ssmlGender v))
