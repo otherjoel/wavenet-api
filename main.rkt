@@ -38,7 +38,7 @@
 ;; (Private) Returns the list of available voices, caching to avoid repeat requests
 (define (voices)
   (unless (not (equal? null (voices-cache)))
-    (unless (api-key) (error 'get/check "API key not set"))
+    (unless (api-key) (error 'get/check "wavenet: API key not set"))
     (voices-cache
      (for/hash ([v (in-list (hash-ref (get/check "voices") 'voices))])
        (values (format "~a (~a)" (voice-name v) (voice-ssmlGender v))
@@ -63,7 +63,7 @@
 ;; will be an extra network request
 (define/contract (synthesize text voice-or-name)
   (-> string? (or/c voice? string?) bytes?)
-  (unless (api-key) (error 'get/check "API key not set"))
+  (unless (api-key) (error 'get/check "wavenet: API key not set"))
   (let* ([synth-voice (if (voice? voice-or-name) voice-or-name (select-voice voice-or-name))]
          [api-voice (hash-remove synth-voice 'naturalSampleRateHertz)]
          [lang-code (car (hash-ref api-voice 'languageCodes))]
