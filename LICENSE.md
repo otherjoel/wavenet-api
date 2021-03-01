@@ -1,4 +1,4 @@
-`racket-relicense-tracking`
+`wavenet-api`
 
 Copyright (c) 2021 Joel Dueck
 
