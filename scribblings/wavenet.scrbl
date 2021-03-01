@@ -9,7 +9,6 @@
 @require[wavenet scribble/example]
 
 @define[examps (make-base-eval)]
-@(examps '(require wavenet hash-view json))
 
 @title{Wavenet TTS API Interface}
 @author[(author+email "Joel Dueck" "joel@jdueck.net" #:obfuscate? #t)]
@@ -25,7 +24,7 @@ will need a valid API key from Google in order to make use of this package.
 Here’s an example program:
 
 @codeblock{
-#lang racket/base
+#lang racket
 
 (require wavenet
          racket/gui/base)
@@ -44,6 +43,7 @@ Here’s an example program:
          (naturalSampleRateHertz . 24000)
          (ssmlGender . "MALE")))
 
+;; Turn your sound up and call this function!
 (define (say text)
   (synthesize text british-dude #:output-file "temp.mp3")
   (play-sound "temp.mp3" #t))
@@ -55,11 +55,9 @@ A parameter for your Google Cloud API key. You must set this before calling @rac
 @racket[select-voice] or @racket[synthesize], or an exception will be raised.
 
 You should store this key in a separate file and make sure to exclude that file from Git (or
-whatever version control system you use):
+whatever version control system you use). Then you can load it up at runtime:
 
 @codeblock{
-#lang racket/base
-
 (api-key (file->string "api.rktd"))
 }
 
@@ -133,7 +131,7 @@ struct-like accessor functions. Because it is a hash table, it can be easily mar
 JSON representation of the same data.
 
 @examples[#:eval examps
-
+(require wavenet json)
 (define british-dude (voice '("en-GB") "en-GB-Wavenet-B" 24000 "MALE"))
 british-dude
 (hash-ref british-dude 'name)
