@@ -21,6 +21,10 @@ text-to-speech engine}.
 The functions in this module make HTTP requests to a Google Cloud API (see @racket[endpoint]). You
 will need a valid API key from Google in order to make use of this package.
 
+The source code is @hyperlink["https://github.com/otherjoel/wavenet-api"]{on Github} and licensed
+under the @hyperlink["https://github.com/otherjoel/wavenet-api/blob/main/LICENSE.md"]{Blue Oak Model
+License 1.0.0}.
+
 Here’s an example program:
 
 @codeblock{
