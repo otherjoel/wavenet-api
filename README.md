@@ -5,7 +5,7 @@ A Racket interface for the [Google Cloud text-to-speech API][tts].
 [Complete documentation is available][docs]. 
 
 [tts]: https://cloud.google.com/text-to-speech
-[docs]: https://docs.racket-lang.org/wavenet/index.html
+[docs]: https://joeldueck.com/what-about/wavenet-api
 
 Here’s a quick example program:
 
